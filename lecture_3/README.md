@@ -3,12 +3,11 @@
 * Node: v20 (can use [nvm](https://github.com/nvm-sh/nvm))
 
 Required steps for Dockerfile:
-1. Install dependencies
-2. Build sources
+1. Select workfolder
+2. Install dependencies
 3. Copy server data
-4. Copy static data
-5. Copy public data
-6. Init server
+4. Build sources (will put it into ./.next/standalone. )
+5. Init server
 
 
 ```bash

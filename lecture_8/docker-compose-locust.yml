@@ -1,0 +1,31 @@
+version: '3'
+services:
+  locust-master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"  # Web UI
+    volumes:
+      - ./test/locust_load_test.py:/mnt/locust/locustfile.py
+    command: >
+      -f /mnt/locust/locustfile.py
+      --master
+    external_links:
+      - nextjs:app
+    environment:
+      - LOCUST_MODE=master
+      - LOCUST_HOST=http://app:3000
+  locust-worker:
+    image: locustio/locust
+    external_links:
+      - nextjs:app
+    depends_on:
+      - locust-master
+    volumes:
+      - ./test/locust_load_test.py:/mnt/locust/locustfile.py
+    command: >
+      -f /mnt/locust/locustfile.py
+      --worker
+      --master-host locust-master
+    environment:
+      - LOCUST_HOST=http://app:3000
+      - LOCUST_MODE=worker
